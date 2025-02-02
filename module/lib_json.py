@@ -40,6 +40,41 @@ def obtener_application_identifiers(data):
     # Si no encuentra lo que busca, devuelve una lista vacía
     return []
 
+def eliminar_si_existe(lista, elemento):
+    """Elimina el elemento de la lista si existe y devuelve la lista modificada.
+    
+    Esta función verifica si el elemento dado está presente en la lista. Si el elemento se encuentra
+    en la lista, lo elimina. Si no está presente, la lista permanece sin cambios. Finalmente, devuelve
+    la lista modificada (ya sea con el elemento eliminado o sin cambios).
+    
+    Args:
+    lista (list): La lista de elementos en la cual se desea eliminar un elemento.
+    elemento (str, int, etc.): El elemento que se desea eliminar de la lista. Puede ser de cualquier tipo
+                               compatible con la lista.
+    
+    Returns:
+    list: La lista resultante después de intentar eliminar el elemento. Si el elemento estaba en la lista,
+          se devuelve la lista sin ese elemento; si no estaba, la lista permanece igual.
+    
+    Ejemplos:
+    
+    >>> eliminar_si_existe([1, 2, 3, 4], 3)
+    [1, 2, 4]  # El elemento 3 es eliminado, la lista resultante es [1, 2, 4]
+    
+    >>> eliminar_si_existe([1, 2, 3, 4], 5)
+    [1, 2, 3, 4]  # El elemento 5 no está en la lista, por lo que la lista permanece igual
+    
+    >>> eliminar_si_existe(["manzana", "plátano", "cereza"], "plátano")
+    ["manzana", "cereza"]  # El elemento "plátano" es eliminado, la lista resultante es ["manzana", "cereza"]
+    
+    >>> eliminar_si_existe([True, False, True], False)
+    [True, True]  # El elemento False es eliminado, la lista resultante es [True, True]
+    """
+    if elemento in lista:
+        lista.remove(elemento)
+    return lista
+
+
 # Ejemplo de uso:
 # configuracion = leer_json('config/config.json')
 # lista_ai = obtener_application_identifiers(configuracion)
