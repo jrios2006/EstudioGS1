@@ -61,3 +61,36 @@ def dividir_cadena(cadena, separador):
     
     return cadena.split(separador)
 
+def eliminar_prefijo(cadena, prefijo):
+    '''Elimina un prefijo de una cadena si la cadena empieza con ese prefijo.
+    
+    Esta función verifica si la cadena proporcionada comienza con el prefijo especificado. Si es así,
+    elimina ese prefijo de la cadena y devuelve la parte restante. Si la cadena no comienza con el prefijo,
+    devuelve la cadena original sin modificaciones.
+    
+    Args:
+    cadena (str): La cadena de texto de la cual se desea eliminar un prefijo.
+    prefijo (str): El prefijo que se desea eliminar al comienzo de la cadena.
+    
+    Returns:
+    str: La cadena resultante después de eliminar el prefijo si estaba presente; si no,
+         devuelve la cadena original.
+    
+    Ejemplos:
+    
+    >>> eliminar_prefijo("Hola Mundo", "Hola")
+    " Mundo"  # El prefijo "Hola" es eliminado, el resto de la cadena es retornado
+    
+    >>> eliminar_prefijo("Hola Mundo", "Mundo")
+    "Hola Mundo"  # El prefijo "Mundo" no está al principio, así que la cadena no cambia
+    
+    >>> eliminar_prefijo("abcdef", "abc")
+    "def"  # El prefijo "abc" es eliminado, el resto de la cadena es retornado
+    
+    >>> eliminar_prefijo("abcdef", "xyz")
+    "abcdef"  # "xyz" no es un prefijo, la cadena original es retornada
+    '''
+    if cadena.startswith(prefijo):
+        return cadena[len(prefijo):]
+    return cadena
+
