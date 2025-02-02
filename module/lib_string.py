@@ -94,3 +94,35 @@ def eliminar_prefijo(cadena, prefijo):
         return cadena[len(prefijo):]
     return cadena
 
+def encontrar_patron(cadena, lista_patrones):
+    '''Busca si la cadena comienza con algún patrón de la lista y devuelve el patrón encontrado.
+
+    La función verifica si la cadena dada comienza con alguno de los patrones en la lista. 
+    Si encuentra un patrón coincidente, lo devuelve. Si no encuentra ninguno, devuelve una cadena vacía ("").
+
+    Args:
+        cadena (str): La cadena de texto en la que se buscarán los patrones.
+        lista_patrones (list): Lista de patrones (cadenas) a verificar en la cadena.
+
+    Returns:
+        str: El primer patrón encontrado con el que comienza la cadena. Si no hay coincidencias, devuelve "".
+
+    Ejemplos:
+        >>> encontrar_patron("abc123", ["abc", "123", "xyz"])
+        'abc'
+
+        >>> encontrar_patron("123abc", ["abc", "123", "xyz"])
+        '123'
+
+        >>> encontrar_patron("xyz456", ["abc", "123", "xyz"])
+        'xyz'
+
+        >>> encontrar_patron("def456", ["abc", "123", "xyz"])
+        ''  # No hay coincidencias
+    '''
+    
+    # Recorrer la lista de patrones y verificar si la cadena empieza con alguno de ellos
+    for patron in lista_patrones:
+        if cadena.startswith(patron):
+            return patron  # Retorna el primer patrón encontrado
+    return ""  # Si no encuentra coincidencia, devuelve una cadena vacía
