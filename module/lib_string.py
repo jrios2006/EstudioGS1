@@ -31,3 +31,33 @@ def existe_separador(cadena, separadores):
     # Si encontramos un separador, devolvemos True y el separador; si no, devolvemos False y None
     tiene_separador = separador_encontrado is not None
     return tiene_separador, separador_encontrado
+
+def dividir_cadena(cadena, separador):
+    '''Dada una cadena de texto, devuelve una lista obtenida al dividir la cadena con el separador.
+    
+    Si el separador no se encuentra en la cadena o si el separador es None, devuelve una lista con un solo elemento, que es la cadena completa.
+    
+    Args:
+    cadena (str): La cadena de texto que se desea dividir.
+    separador (str or None): El separador que se usará para dividir la cadena. Si es None, la cadena no se divide y se devuelve como único elemento.
+    
+    Returns:
+    list: Una lista de subcadenas divididas por el separador. 
+          Si el separador no se encuentra o es None, la lista contiene la cadena original como único elemento.
+          
+    Ejemplo:
+    >>> dividir_cadena("apple,banana,orange", ",")
+    ['apple', 'banana', 'orange']
+    
+    >>> dividir_cadena("apple", ",")
+    ['apple']
+    
+    >>> dividir_cadena("apple", None)
+    ['apple']
+    '''
+    # Si el separador es None, devolver la cadena original en una lista
+    if separador is None:
+        return [cadena]
+    
+    return cadena.split(separador)
+
