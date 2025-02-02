@@ -1,4 +1,5 @@
 import calendar
+from datetime import datetime
 
 def es_fecha_valida(cadena):
     '''Función que valida una fecha dada en formato YYMMDD.
@@ -57,3 +58,53 @@ def es_fecha_valida(cadena):
             # El día no es válido
             return False
     return True
+
+def get_fecha(cadena):
+    '''Dada una cadena con formato YYMMDD, devuelve un objeto datetime ajustado a las 23:59:59 del día especificado.
+    
+    La función primero valida que la fecha dada en la cadena esté en un formato correcto (YYMMDD), y luego ajusta 
+    el día si es necesario (por ejemplo, si el día es 00, lo ajusta al último día del mes). Finalmente, se crea un 
+    objeto `datetime` que representa la fecha en formato `YYYY-MM-DD` con la hora establecida a las 23:59:59.
+
+    Si la fecha no es válida según la función `ValidarFecha`, la función devuelve `None`.
+    
+    Args:
+    cadena (str): Fecha en formato YYMMDD. Donde:
+                  - `YY` son los dos últimos dígitos del año.
+                  - `MM` es el mes (01-12).
+                  - `DD` es el día (01-31).
+    
+    Returns:
+    datetime: Objeto `datetime` con la fecha ajustada a las 23:59:59 del día especificado, si la fecha es válida.
+              Devuelve `None` si la fecha no es válida.
+    
+    Ejemplos:
+    >>> get_fecha("230215")
+    datetime.datetime(2023, 2, 15, 23, 59, 59, 999999)
+    
+    >>> get_fecha("230200")
+    datetime.datetime(2023, 2, 28, 23, 59, 59, 999999)  # Ajuste al último día de febrero
+    
+    >>> get_fecha("239913")
+    None  # Fecha no válida debido a mes "99"
+    
+    >>> get_fecha("230215")
+    datetime.datetime(2023, 2, 15, 23, 59, 59, 999999)  # Fecha válida
+    '''
+    
+    if es_fecha_valida(cadena):  # Asumiendo que ValidarFecha está bien definida
+        # Es una fecha válida, así que la parseo
+        anio = int("20" + cadena[:2])  # Convertir el año a 4 dígitos
+        mes = int(cadena[2:4])  # Convertir el mes a entero
+        dia = int(cadena[4:6])  # Convertir el día a entero
+
+        if dia == 0:
+            # Ajustar al último día del mes si el día es "00"
+            dia = calendar.monthrange(anio, mes)[1]
+
+        # Crear el objeto datetime ajustado a las 23:59:59
+        fecha_caducidad = datetime(anio, mes, dia, 23, 59, 59, 999999)
+        return fecha_caducidad
+    else:
+        # Devuelve None si la fecha no es válida
+        return None
