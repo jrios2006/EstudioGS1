@@ -74,8 +74,50 @@ def eliminar_si_existe(lista, elemento):
         lista.remove(elemento)
     return lista
 
+def buscar_ai_en_codigos(ai, codigos_ai):
+    '''Busca un código AI dentro de un diccionario de códigos y devuelve el elemento correspondiente.
+
+    La función toma un identificador AI y un diccionario que contiene una lista de códigos bajo la clave
+    "applicationIdentifiers". Si encuentra una coincidencia con el campo "applicationIdentifier",
+    devuelve el diccionario correspondiente. Si no lo encuentra, devuelve un diccionario vacío.
+
+    Args:
+        ai (str): Identificador AI a buscar.
+        codigos_ai (dict): Diccionario que contiene la clave "applicationIdentifiers", 
+                           la cual es una lista de diccionarios con información sobre los AI.
+
+    Returns:
+        dict: El diccionario que coincide con el "applicationIdentifier" buscado, o un diccionario vacío si no hay coincidencia.
+
+    Ejemplos:
+        >>> codigos = {
+        ...     "applicationIdentifiers": [
+        ...         {"applicationIdentifier": "01", "description": "GTIN"},
+        ...         {"applicationIdentifier": "21", "description": "Serial Number"}
+        ...     ]
+        ... }
+        >>> buscar_ai_en_codigos("01", codigos)
+        {'applicationIdentifier': '01', 'description': 'GTIN'}
+
+        >>> buscar_ai_en_codigos("99", codigos)
+        {}  # No se encontró el AI
+    '''
+    
+    # Verificar que "codigos_ai" es un diccionario y que tiene la clave "applicationIdentifiers"
+    if not isinstance(codigos_ai, dict) or "applicationIdentifiers" not in codigos_ai:
+        return {}
+
+    # Obtener la lista de identificadores
+    lista_identificadores = codigos_ai["applicationIdentifiers"]
+
+    # Buscar en la lista el elemento que coincida con "applicationIdentifier"
+    for elemento in lista_identificadores:
+        if elemento.get("applicationIdentifier") == ai:
+            return elemento  # Retorna el diccionario encontrado
+
+    return {}  # Retorna un diccionario vacío si no encuentra coincidencia
+
 
 # Ejemplo de uso:
+# credenciales = leer_json('config/credenciales.json')
 # configuracion = leer_json('config/config.json')
-# lista_ai = obtener_application_identifiers(configuracion)
-
