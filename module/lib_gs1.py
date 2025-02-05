@@ -1,59 +1,103 @@
-def calcular_digito_control_EAN13(cadena):
-    '''Función que calcula el dígito de control (checksum) para una cadena de 12 dígitos.
-    
-    Esta función implementa el algoritmo de Luhn para calcular el dígito de control de un código EAN13,
-    que consiste en un código de 13 dígitos. Se proporciona una cadena de 12 dígitos y la función calcula
-    el dígito de control que completa el código EAN13.
+from module.lib_json import obtener_application_identifiers, eliminar_si_existe, buscar_ai_en_codigos
+from module.lib_string import existe_separador, dividir_cadena, encontrar_patron
+from module.lib_EAN import calcular_digito_control_EAN13
+import module.lib_procesadores as procesadores
 
-    Si la cadena no tiene exactamente 12 dígitos o no es una cadena numérica, la función devuelve -1
-    como indicativo de un error.
+def procesar_codigo_gs1(cadena, parametros_gs1):
+    """
+    Procesa un código GS1 (como un DataMatrix o un código de barras) y extrae información relevante.
 
     Args:
-    cadena (str): Una cadena de 12 dígitos numéricos. Debe contener solo números y tener una longitud de 12 caracteres.
+        cadena (str): El código GS1 a procesar.
+        parametros_gs1 (dict): Diccionario con parámetros de configuración, que incluye:
+            - "FNC1List" (list, opcional): Lista de separadores FNC1 posibles. Si no está presente, se usará chr(29) por defecto.
+            - "applicationIdentifiers" (list): Lista de identificadores de aplicación (AIs) y sus especificaciones.
 
     Returns:
-    int: El dígito de control calculado. Si la cadena tiene un formato incorrecto, se devuelve -1.
-    
-    El algoritmo sigue los siguientes pasos:
-    1. Verifica si la cadena tiene exactamente 12 dígitos.
-    2. Si es válida, calcula la suma ponderada de los dígitos de la cadena, alternando entre multiplicar
-       los dígitos en posiciones impares por 3 y los de las posiciones pares por 1.
-    3. Calcula el módulo 10 de la suma y determina el dígito de control.
-    4. Si el módulo es 0, el dígito de control es 0; de lo contrario, es 10 menos el módulo.
-    
-    Ejemplos:
+        dict: Diccionario con los resultados del procesamiento. Incluye las siguientes claves:
+            - "datamatrix" (str): El código GS1 original procesado.
+            - "error" (bool): Indica si hubo un error en el procesamiento.
+            - "observaciones" (list): Lista de observaciones o advertencias generadas durante el procesamiento.
+            - "ais" (list): Lista de identificadores de aplicación (AIs) procesados.
+            - "version" (str): La fecha de la última modificación de las especificaciones, si está disponible.
+            - "EAN13" (str, opcional): El código EAN13 extraído, si aplica.
+            - "GTIN" (dict, opcional): Información desglosada del código GTIN, si aplica.
+            - "RegistroSanitario" (str, opcional): Código de registro sanitario, si aplica.
 
-    >>> calcular_digito_control_EAN13("123456789012")
-    3  # El dígito de control calculado es 3
+    Observaciones:
+        - Si no se encuentra la clave `dc:lastModified` en los parámetros, la versión se establece en "2025-01-01".
+        - Si el separador FNC1 no es estándar, se genera una observación y se utiliza chr(29) por defecto.
+        - Valida que los códigos contengan la información mínima requerida, como fecha de caducidad y lote.
 
-    >>> calcular_digito_control_EAN13("12345abc9012")
-    -1  # La cadena contiene caracteres no numéricos, por lo que devuelve -1
+    Raises:
+        KeyError: Si el parámetro `parametros_gs1` no incluye la clave "applicationIdentifiers".
+    """
+    # Obtener lista de separadores FNC1, usar chr(29) por defecto si no está presente
+    lista_FNC1_posibles = parametros_gs1.get("FNC1List", [chr(29)])
+    ES_FNC1, FNC1 = existe_separador(cadena=cadena, separadores=lista_FNC1_posibles)
 
-    >>> calcular_digito_control_EAN13("987654321098")
-    2  # El dígito de control calculado es 2
+    # Obtener lista de application identifiers
+    lista_ai = obtener_application_identifiers(parametros_gs1)
+    lista_ai_usadas = []
 
-    >>> calcular_digito_control_EAN13("123")
-    -1  # La cadena no tiene 12 dígitos, por lo que devuelve -1
-    '''
-    
-    # Comprobamos si la cadena tiene exactamente 12 dígitos y si todos son numéricos
-    if len(cadena) != 12 or not cadena.isdigit():
-        return -1
-    
-    suma = 0
-    # Iteramos sobre los 12 dígitos
-    for i in range(12):
-        digito = int(cadena[i])
-        # Si la posición es par (recordando que empieza en 0), se multiplica por 1
-        # Si es impar, se multiplica por 3
-        if i % 2 == 0:
-            suma += digito
-        else:
-            suma += digito * 3
-    
-    # Calculamos el módulo 10
-    modulo = suma % 10
-    # Si el módulo es 0, el dígito de control es 0; de lo contrario, es 10 menos el módulo
-    digito_control = 0 if modulo == 0 else 10 - modulo
-    
-    return digito_control
+    # Inicializar el resultado
+    resultado = {
+        "datamatrix": cadena,
+        "error": False,
+        "observaciones": [],
+        "ais": []
+    }
+
+    # Extraer la versión del parámetro `parametros_gs1`
+    try:
+        # Obtener el primer elemento de la lista `applicationIdentifiers` y su clave `dc:lastModified`
+        version = parametros_gs1["applicationIdentifiers"][0].get("dc:lastModified", {}).get("@value", "2025-01-01")
+    except (KeyError, IndexError, AttributeError):
+        version = "2025-01-01"  # Valor predeterminado si no se encuentra la clave
+
+    # Añadir la versión al resultado
+    resultado["version"] = version
+
+    # Verificar si el separador FNC1 es estándar
+    if FNC1 != chr(29):
+        separador_mostrado = "espacio en blanco" if FNC1 == " " else repr(FNC1)
+        resultado["observaciones"].append(f"El carácter separador FNC1 no es el estándar y se ha cambiado a {separador_mostrado}.")
+
+    # Validaciones iniciales de la cadena
+    if len(cadena) < 28:
+        resultado["error"] = True
+        resultado["observaciones"].append(f"El datamatrix no cumple con tener fecha de caducidad y lote. Por favor revisa el código.")
+    if len(cadena) == 13 and cadena.isdigit():
+        resultado["EAN13"] = cadena
+        resultado["GTIN"] = {
+            "Empresa": cadena[0:6],
+            "Articulo": cadena[6:12],
+            "DigitoControl": cadena[12]
+        }
+        DigitoControlCalculado = calcular_digito_control_EAN13(cadena=cadena[0:12])
+        if int(cadena[12]) != DigitoControlCalculado:
+            resultado["observaciones"].append(f"El código EAN13 {cadena} no tiene el dígito de control ({cadena[12]}) bien calculado. Su dígito de control debe de ser ({DigitoControlCalculado}).")
+        if cadena[0:6] == "847000":
+            resultado["RegistroSanitario"] = cadena[6:12]
+
+    # Dividir la cadena usando el separador FNC1
+    lista_palabras = dividir_cadena(cadena=cadena, separador=FNC1)
+    for palabra in lista_palabras:
+        palabra_original = palabra
+        while palabra:
+            ai = encontrar_patron(cadena=palabra, lista_patrones=lista_ai)
+            if not ai:
+                break
+            # Procesar el AI utilizando funciones específicas
+            nombre_funcion = f"proceso_ai_{ai}"
+            if hasattr(procesadores, nombre_funcion):
+                funcion_procesar = getattr(procesadores, nombre_funcion)
+                resultado, palabra, lista_ai = funcion_procesar(palabra, resultado, lista_ai)
+                lista_ai_usadas.append(ai)
+            else:
+                especificacion_ai = buscar_ai_en_codigos(ai=ai, codigos_ai=parametros_gs1)
+                lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
+        if palabra != "":
+            resultado["observaciones"].append(f"No he conseguido procesar todo el contenido que queda {palabra} de {palabra_original}")
+
+    return resultado
