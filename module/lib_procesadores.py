@@ -182,7 +182,7 @@ def proceso_ai_712(cadena, resultado, lista_ai):
     print("Procesando Spanish NHRN Code (número de reembolso)...")
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
-    diccionario["observaciones"].append(f"Spanish CN (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"Spanish CN (NHRN) encontrado {NHRN}.")
     diccionario["ais"].append(ai)
     print(f"Spanish NHRN: {NHRN}")
     # Añado mi lógica para este caso.
