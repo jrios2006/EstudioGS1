@@ -19,6 +19,21 @@ def leer_json(ruta_archivo):
         print(f"Error al leer el archivo JSON {ruta_archivo}: {e}")
         return {}
 
+def guardar_json(datos, ruta_archivo):
+    """
+    Guarda un diccionario como archivo JSON.
+    
+    Args:
+        datos (dict): Diccionario a guardar.
+        ruta_archivo (str): Ruta del archivo donde guardar los datos.
+    """
+    try:
+        with open(ruta_archivo, 'w', encoding='utf-8') as f:
+            json.dump(datos, f, indent=4, ensure_ascii=False)
+        print(f"Datos guardados correctamente en {ruta_archivo}")
+    except Exception as e:
+        print(f"Error al guardar el archivo JSON: {e}")
+
 def obtener_application_identifiers(data):
     ''' Leo un diccionario de datos y si la clave 'applicationIdentifiers' está en el diccionario devuelvo una lista con el campo 
     applicationIdentifier.
