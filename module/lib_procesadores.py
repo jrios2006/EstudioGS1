@@ -3,7 +3,6 @@ from module.lib_string import eliminar_prefijo
 from module.lib_json import eliminar_si_existe
 from module.lib_EAN import calcular_digito_control_EAN13
 
-
 def proceso_ai_17(cadena, resultado, lista_patrones):
     '''
     Procesa un Application Identifier (AI) de tipo "17" en una cadena GS1 Datamatrix y actualiza el resultado. 
@@ -183,6 +182,7 @@ def proceso_ai_712(cadena, resultado, lista_ai):
     print("Procesando Spanish NHRN Code (número de reembolso)...")
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
+    diccionario["observaciones"].append(f"Spanish CN (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     diccionario["ais"].append(ai)
     print(f"Spanish NHRN: {NHRN}")
     # Añado mi lógica para este caso.
@@ -237,7 +237,7 @@ def proceso_ai_710(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"Germany PZN (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"Germany PZN (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Germany (PZN) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
@@ -261,7 +261,7 @@ def proceso_ai_711(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"French CIP (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"French CIP (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"French (CIP) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
@@ -285,7 +285,7 @@ def proceso_ai_713(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"Brazilian DRN (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"Brazilian DRN (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Brazilian (DRN) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
@@ -309,7 +309,7 @@ def proceso_ai_714(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"Portugal AIM (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"Portugal AIM (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Portugal (AIM) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
@@ -333,7 +333,7 @@ def proceso_ai_715(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"USA NDC (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"USA NDC (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"USA (NDC) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
@@ -357,7 +357,7 @@ def proceso_ai_716(cadena, resultado, lista_ai):
     NHRN = cadena[3:].split()[0]  # Extraer el NumeroSerie hasta el primer separador (puedes ajustar esta lógica)
     diccionario[ai] = NHRN
     diccionario["ais"].append(ai)
-    diccionario["observaciones"].append(f"Italy AIC (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
+    diccionario["observaciones"].append(f"Italy AIC (NHRN) encontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Italy (AIC) NHRN: {NHRN}")
     cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
