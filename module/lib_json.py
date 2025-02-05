@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 def leer_json(ruta_archivo):
     '''
@@ -117,6 +118,26 @@ def buscar_ai_en_codigos(ai, codigos_ai):
 
     return {}  # Retorna un diccionario vacío si no encuentra coincidencia
 
+# Serializar usando una función personalizada
+def custom_serializer(obj):
+    """
+    Función personalizada para serializar objetos no compatibles por defecto con JSON, como `datetime`.
+
+    Args:
+        obj (any): Objeto a serializar.
+
+    Returns:
+        str: Representación serializable del objeto (por ejemplo, en formato ISO 8601 para `datetime`).
+
+    Raises:
+        TypeError: Si el objeto no es serializable y no es un tipo manejado específicamente en la función.
+    """
+    if isinstance(obj, datetime):
+        # Convertir objetos datetime a una cadena en formato ISO 8601
+        return obj.isoformat()
+    
+    # Levanta un error si el tipo no es soportado
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 # Ejemplo de uso:
 # credenciales = leer_json('config/credenciales.json')
