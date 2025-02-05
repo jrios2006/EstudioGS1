@@ -85,7 +85,7 @@ def proceso_ai_10(cadena, resultado, lista_ai):
     diccionario[ai] = lote
     diccionario["ais"].append(ai)
     print(f"Lote encontrado: {lote}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(lote) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(lote) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai
 
@@ -109,7 +109,7 @@ def proceso_ai_21(cadena, resultado, lista_ai):
     diccionario[ai] = NumeroSerie
     diccionario["ais"].append(ai)
     print(f"Serie encontrado: {NumeroSerie}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NumeroSerie) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NumeroSerie) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai
 
@@ -214,7 +214,7 @@ def proceso_ai_712(cadena, resultado, lista_ai):
             print(f"RegistroSanitario añadido: {NHRN[:6]}")
 
     print(f"NTIN encontrado: {diccionario['NTIN']}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai
 
@@ -238,7 +238,7 @@ def proceso_ai_710(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"Germany PZN (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Germany (PZN) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai    
 
@@ -262,7 +262,7 @@ def proceso_ai_711(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"French CIP (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"French (CIP) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai        
 
@@ -286,7 +286,7 @@ def proceso_ai_713(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"Brazilian DRN (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Brazilian (DRN) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai            
 
@@ -310,7 +310,7 @@ def proceso_ai_714(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"Portugal AIM (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Portugal (AIM) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai                
 
@@ -334,7 +334,7 @@ def proceso_ai_715(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"USA NDC (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"USA (NDC) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai                    
 
@@ -358,6 +358,6 @@ def proceso_ai_716(cadena, resultado, lista_ai):
     diccionario["ais"].append(ai)
     diccionario["observaciones"].append(f"Italy AIC (NHRN) enontrado {NHRN}. Buscar como procesar este dato.")
     print(f"Italy (AIC) NHRN: {NHRN}")
-    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + 2])
+    cadena = eliminar_prefijo(cadena=cadena, prefijo=cadena[:len(NHRN) + len(ai)])
     lista_ai = eliminar_si_existe(lista=lista_ai, elemento=ai)
     return diccionario, cadena, lista_ai                        
