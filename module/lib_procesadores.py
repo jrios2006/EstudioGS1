@@ -1,7 +1,8 @@
 from module.lib_date import es_fecha_valida, get_fecha
 from module.lib_string import eliminar_prefijo
 from module.lib_json import eliminar_si_existe
-from module.lib_gs1 import calcular_digito_control_EAN13
+from module.lib_EAN import calcular_digito_control_EAN13
+
 
 def proceso_ai_17(cadena, resultado, lista_patrones):
     '''
