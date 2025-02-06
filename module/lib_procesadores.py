@@ -207,7 +207,7 @@ def proceso_ai_712(cadena, resultado, lista_ai):
             "DigitoControl" : NHRN[-1]
         }
         if int(NHRN[-1]) != calcular_digito_control_EAN13(cadena="847000" + NHRN[0:6]):
-            diccionario["observaciones"].append(f"El código NTIN simplificado {NHRN} no tiene el dígito de control ({NHRN[-1]}) bien calculado. Su dígito de control debe de ser ({calcular_digito_control_EAN13(cadena="847000" + NHRN[0:6])}).")
+            diccionario["observaciones"].append(f"El código NTIN simplificado {NHRN} no tiene el dígito de control ({NHRN[-1]}) bien calculado. Su dígito de control debe de ser ({calcular_digito_control_EAN13(cadena='847000' + NHRN[0:6])}).")
         
         # Si "RegistroSanitario" no está en el diccionario, lo añadimos
         if "RegistroSanitario" not in diccionario:
