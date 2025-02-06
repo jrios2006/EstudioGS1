@@ -43,6 +43,17 @@ if __name__ == "__main__":
     codigo_base64 = base64.b64encode(codigo.encode('utf-8')).decode('utf-8')
     resultado_filtrado_base64 = base64.b64encode(resultado_serializado.encode('utf-8')).decode('utf-8')
 
+    # Calcular la longitud de los resultados en base64
+    longitud_codigo_base64 = len(codigo_base64)
+    longitud_resultado_filtrado_base64 = len(resultado_filtrado_base64)
+
     print(f"\nCodificación en base64:")
     print(f"- Código en base64: {codigo_base64}")
+    print(f"- Longitud del código en base64: {longitud_codigo_base64} caracteres")
     print(f"- Resultado filtrado en base64: {resultado_filtrado_base64}")
+    print(f"- Longitud del resultado filtrado en base64: {longitud_resultado_filtrado_base64} caracteres")
+
+    # Comparación de tamaños
+    print(f"\nComparación de tamaños:")
+    print(f"- Aumento del tamaño del código al codificar en base64: {longitud_codigo_base64 - tamaño_codigo_bytes} bytes")
+    print(f"- Aumento del tamaño del resultado filtrado al codificar en base64: {longitud_resultado_filtrado_base64 - tamaño_resultado_bytes} bytes")
