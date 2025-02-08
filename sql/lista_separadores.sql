@@ -12,7 +12,9 @@ FROM
 WHERE 
 	DESCRIPCION = 'GS1';
 
-/* MIsma consulta que devuelve una lista en lugar de filas */
+/* Misma consulta que devuelve una lista en lugar de filas
+Falta medir rendimiento sobre estas dos consultas
+*/
 SELECT
 	CAST(COLLECT(fnc1_list.VALUE) AS SYS.ODCIVARCHAR2LIST)
 FROM
