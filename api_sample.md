@@ -56,3 +56,28 @@ Debemos de saber
 3. Nombre del endpoint (parse_datamatrix)
 4. parámetros a pasar (codigo)
 
+## Pruebas con curl y post
+
+```
+curl -X POST "http://127.0.0.1:5000/parse_datamatrix" -H "Content-Type: application/json" -d '{"codigo": "010843701315676921A014MFCNMYF5AR\u001d1024C0106B\u001d172703317127062585"}'
+```
+Resultado
+
+```json
+{"codigo":"010843701315676921A014MFCNMYF5AR\u001d1024C0106B\u001d172703317127062585","estado":true,"errores":[],"resultado":{"datamatrix":"010843701315676921A014MFCNMYF5AR\u001d1024C0106B\u001d172703317127062585","error":false,"observaciones":["Spanish CN (NHRN) encontrado 7062585."],"ais":["01","21","10","17","712"],"version":"2025-01-29","01":"08437013156769","GTIN":{"Estructura":"0","Empresa":"843701","Articulo":"315676","DigitoControl":"9"},"NumeroSerie":"A014MFCNMYF5AR","21":"A014MFCNMYF5AR","Lote":"24C0106B","10":"24C0106B","17":"270331","FechaCaducidad":"2027-03-31T23:59:59.999999","712":"7062585","NTIN":{"Empresa":"847000","Articulo":"706258","DigitoControl":"5"},"RegistroSanitario":"706258"},"warnings":[],"comentarios":"","version_api":"2025-02-03"}
+```
+
+Si no le paso bien la cabecera (codigo1 en lugar de codigo)
+
+```
+curl -X POST "http://127.0.0.1:5000/parse_datamatrix" -H "Content-Type: application/json" -d '{"codigo1": "010843701315676921A014MFCNMYF5AR\u001d1024C0106B\u001d172703317127062585"}'
+```
+
+Resultado en el cliente
+```json
+{"detail":[{"type":"missing","loc":["body","codigo"],"msg":"Field required","input":{"codigo1":"010843701315676921A014MFCNMYF5AR\u001d1024C0106B\u001d172703317127062585"}}]}
+```
+
+
+
+
