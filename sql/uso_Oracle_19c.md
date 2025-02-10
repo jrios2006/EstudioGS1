@@ -256,3 +256,20 @@ Su resultado es
 Si el código es correcto encontraremos los datos que buscamos de una manera sencilla y usando pl/sql
 
 
+Para solo realizar en oracle una sola petición http bastaría con realizar esta consulta
+
+```sql
+SELECT 
+    JSON_VALUE(respuesta, '$.resultado.Lote') AS Lote,
+    JSON_VALUE(respuesta, '$.resultado.FechaCaducidad') AS FechaCaducidad,
+    JSON_VALUE(respuesta, '$.resultado.RegistroSanitario') AS RegistroSanitario
+FROM (
+    SELECT call_http_get('010843701315676921A014MFCNMYF5AR^1024C0106B^172703317127062585') AS respuesta
+    FROM DUAL
+) t;
+```
+
+El resultado serrá
+|LOTE|FECHACADUCIDAD|REGISTROSANITARIO|
+|----|--------------|-----------------|
+|24C0106B|2027-03-31T23:59:59.999999|706258|
