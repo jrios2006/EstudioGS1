@@ -264,7 +264,7 @@ SELECT
     JSON_VALUE(respuesta, '$.resultado.FechaCaducidad') AS FechaCaducidad,
     JSON_VALUE(respuesta, '$.resultado.RegistroSanitario') AS RegistroSanitario
 FROM (
-    SELECT call_http_get('010843701315676921A014MFCNMYF5AR^1024C0106B^172703317127062585') AS respuesta
+    SELECT call_http_get_ejemplo('010843701315676921A014MFCNMYF5AR^1024C0106B^172703317127062585') AS respuesta
     FROM DUAL
 ) t;
 ```
